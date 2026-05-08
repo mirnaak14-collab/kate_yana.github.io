@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Логика и шифры: математика в интернете | 7–8 класс</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #e0e8f0 100%);
+            font-family: 'Segoe UI', 'Roboto', 'Inter', system-ui, -apple-system, sans-serif;
+            padding: 1.5rem;
+            color: #1a2e3f;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* шапка / вводная часть */
+        .hero {
+            background: linear-gradient(135deg, #0b2f3c 0%, #1a5f6e 100%);
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 70%;
+        }
+
+        .badge {
+            background: #ffb347;
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #1e2f3a;
+            margin-bottom: 1rem;
+        }
+
+        /* обучающий блок */
+        .learn-card {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .learn-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .learn-header svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .learn-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .learn-item {
+            flex: 1;
+            background: #f8fafd;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .learn-item svg {
+            width: 100%;
+            height: 140px;
+            margin-bottom: 0.8rem;
+            border-radius: 1rem;
+        }
+
+        .learn-item h4 {
+            margin: 0.5rem 0;
+        }
+
+        /* три колонки */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+            border: 1px solid #dce5ed;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            border-left: 5px solid #2c7a6e;
+            padding-left: 0.8rem;
+        }
+
+        .theory {
+            background: #eef2fa;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            margin: 0.8rem 0;
+            font-size: 0.9rem;
+            border-left: 3px solid #2c7a6e;
+        }
+
+        .theory strong {
+            color: #1a5f6e;
+        }
+
+        .input-group {
+            margin: 1rem 0;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 1.2rem;
+            border: 1px solid #cbdae6;
+            font-family: monospace;
+            background: white;
+        }
+
+        button {
+            background: #2c7a6e;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #1f5e52;
+            transform: scale(0.96);
+        }
+
+        .result-box {
+            background: #f0f4fa;
+            border-radius: 1.2rem;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            font-family: monospace;
+            border-left: 4px solid #2c7a6e;
+        }
+
+        .meter {
+            height: 10px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .meter-fill {
+            width: 0%;
+            height: 100%;
+            background: #e67e22;
+            transition: width 0.2s;
+        }
+
+        .quest-task {
+            background: #f8f2e7;
+            border-radius: 1.2rem;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* фотографии из интернета */
+        .photo-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .photo-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 280px;
+            transition: transform 0.2s;
+            text-align: center;
+        }
+        .photo-card:hover {
+            transform: translateY(-5px);
+        }
+        .photo-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .photo-card p {
+            padding: 0.8rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1a5f6e;
+        }
+        .caption {
+            font-size: 0.8rem;
+            color: #5f7f8f;
+            padding: 0 0.8rem 0.8rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #cbdae6;
+            color: #4f6f7f;
+        }
+
+        @media (max-width: 700px) {
+            .hero p { max-width: 100%; }
+            .learn-grid { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- ========== ВВОДНАЯ ЧАСТЬ ========== -->
+    <div class="hero">
+        <div class="badge">🎓 Классный час • 7–8 класс</div>
+        <h1>🧩 Логика, шифры и математика <br>как защищают твои данные</h1>
+        <p>Простые числа, комбинации и алгоритмы — секретная броня твоего Telegram, паролей и покупок онлайн.</p>
+    </div>
+
+    <!-- ВВОДНЫЙ ТЕКСТ (живой диалог с классом) -->
+    <div class="learn-card" style="background: #fff6e8;">
+        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+            <span style="font-size: 3rem;">👋</span>
+            <div>
+                <h2>Добро пожаловать на классный час!</h2>
+                <p>Ребята, представьте: вы отправляете сообщение другу, заходите в соцсети или оплачиваете пиццу онлайн. Ваши данные проходят через сотни компьютеров, но никто не может их украсть. Почему? Потому что их защищает <strong>математика</strong>! Сегодня мы разберёмся, как шифры, простые числа и логика работают на вас.</p>
+                <p style="margin-top: 0.5rem;">✨ <strong>Цель классного часа:</strong> понять, как математика помогает нам быть в безопасности, научиться создавать надёжные пароли и даже зашифровать своё первое сообщение.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ФОТОГРАФИИ ИЗ ИНТЕРНЕТА (реальные изображения) -->
+    <h2 style="margin-bottom: 1rem;">📸 Как шифрование выглядит в реальной жизни</h2>
+    <div class="photo-gallery">
+        <div class="photo-card">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=250&fit=crop" alt="Кибербезопасность и шифрование" loading="lazy">
+            <p>🔐 Кибербезопасность</p>
+            <div class="caption">Шифрование защищает наши данные 24/7</div>
+        </div>
+        <div class="photo-card">
+            <img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=400&h=250&fit=crop" alt="Математика и алгоритмы" loading="lazy">
+            <p>🧮 Математика вокруг нас</p>
+            <div class="caption">Алгоритмы RSA и AES основаны на теории чисел</div>
+        </div>
+        <div class="photo-card">
+            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=400&h=250&fit=crop" alt="Надёжный пароль" loading="lazy">
+            <p>🔑 Надёжный пароль</p>
+            <div class="caption">Чем длиннее — тем безопаснее</div>
+        </div>
+        <div class="photo-card">
+            <img src="https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?w=400&h=250&fit=crop" alt="Защита данных" loading="lazy">
+            <p>🛡️ Защита персональных данных</p>
+            <div class="caption">Ваши сообщения в безопасности</div>
+        </div>
+    </div>
+
+    <!-- ========== ТЕОРЕТИЧЕСКИЙ БЛОК ========== -->
+    <div class="learn-card">
+        <div class="learn-header">
+            <svg viewBox="0 0 100 100" fill="#2c7a6e">
+                <circle cx="50" cy="50" r="45" stroke="#2c7a6e" stroke-width="3" fill="white"/>
+                <text x="50" y="65" text-anchor="middle" font-size="40" fill="#2c7a6e">π</text>
+            </svg>
+            <h2>📖 Теоретический блок: математика — щит в цифровом мире</h2>
+        </div>
+        <div class="learn-grid">
+            <div class="learn-item">
+                <svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="300" height="120" fill="#e8f4f0" rx="12"/>
+                    <text x="20" y="35" font-size="20" fill="#2c7a6e" font-weight="bold">Простые числа:</text>
+                    <text x="20" y="65" font-size="28" fill="#e67e22" font-family="monospace">2,3,5,7,11,13...</text>
+                    <text x="20" y="95" font-size="14" fill="#555">61 × 53 = 3233 (RSA)</text>
+                </svg>
+                <h4>🔢 Простые числа — основа шифрования</h4>
+                <p>RSA-шифрование основано на умножении двух огромных простых чисел. Их легко умножить, но трудно разложить обратно. Это называется «задача факторизации» — даже мощным компьютерам нужны годы, чтобы взломать такой код.</p>
+            </div>
+            <div class="learn-item">
+                <svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="300" height="120" fill="#e8f4f0" rx="12"/>
+                    <text x="20" y="30" font-size="18" fill="#2c7a6e" font-weight="bold">Шифр Цезаря:</text>
+                    <text x="20" y="55" font-size="22" fill="#e67e22" font-family="monospace">A→D, B→E, C→F</text>
+                    <text x="20" y="85" font-size="16" fill="#555">Сдвиг на 3 буквы</text>
+                    <line x1="20" y1="100" x2="280" y2="100" stroke="#2c7a6e" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="20" y="115" font-size="13" fill="#888">HELLO → KHOOR</text>
+                </svg>
+                <h4>⚙️ Шифр Цезаря</h4>
+                <p>Первый шифр в истории: сдвиг букв по алфавиту. Его идея живёт во всех кодах. Слабость: всего 25 вариантов ключа, поэтому его легко взломать перебором. Но для знакомства с криптографией — отлично!</p>
+            </div>
+            <div class="learn-item">
+                <svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="300" height="120" fill="#e8f4f0" rx="12"/>
+                    <text x="20" y="30" font-size="18" fill="#2c7a6e" font-weight="bold">Стойкость пароля:</text>
+                    <text x="20" y="55" font-size="20" fill="#e67e22" font-family="monospace">26 букв + 10 цифр + 20 символов</text>
+                    <text x="20" y="85" font-size="16" fill="#555">56 символов всего → 56^8 вариантов</text>
+                    <text x="20" y="110" font-size="12" fill="#888">≈ 2.1 × 10^13 комбинаций</text>
+                </svg>
+                <h4>🔐 Стойкость пароля</h4>
+                <p>Чем больше символов и их разнообразие, тем дольше злоумышленник будет подбирать комбинации. Хороший пароль — это длина + буквы разного регистра + цифры + спецсимволы.</p>
+            </div>
+            <div class="learn-item">
+                <svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="300" height="120" fill="#e8f4f0" rx="12"/>
+                    <text x="20" y="30" font-size="18" fill="#2c7a6e" font-weight="bold">Комбинаторика:</text>
+                    <text x="20" y="55" font-size="22" fill="#e67e22" font-family="monospace">N = k^L</text>
+                    <text x="20" y="80" font-size="16" fill="#555">k = число символов, L = длина</text>
+                    <text x="20" y="105" font-size="13" fill="#888">Растёт экспоненциально!</text>
+                </svg>
+                <h4>🧮 Комбинаторика в криптографии</h4>
+                <p>Количество возможных паролей = (размер алфавита)^длина. Увеличив длину на 1 символ, мы умножаем число вариантов на k! Именно поэтому длинные пароли так надёжны.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ДОПОЛНИТЕЛЬНАЯ ТЕОРИЯ: Современные шифры -->
+    <div class="learn-card">
+        <h2>🔬 Современная криптография: как это работает сегодня</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+            <div style="flex: 1; background: #e8f4f0; border-radius: 1rem; padding: 1rem;">
+                <strong>🔐 RSA (1977)</strong>
+                <p>Самый популярный асимметричный шифр. Использует пару ключей: открытый (для шифрования) и закрытый (для расшифровки). Безопасность основана на сложности разложения больших чисел на простые множители.</p>
+            </div>
+            <div style="flex: 1; background: #e8f4f0; border-radius: 1rem; padding: 1rem;">
+                <strong>🔑 AES (2001)</strong>
+                <p>Симметричный шифр, используется для защиты данных в Wi-Fi, файлах и сообщениях. Работает с блоками данных и имеет ключи длиной 128, 192 или 256 бит.</p>
+            </div>
+            <div style="flex: 1; background: #e8f4f0; border-radius: 1rem; padding: 1rem;">
+                <strong>💬 Хеш-функции (SHA, MD5)</strong>
+                <p>Преобразуют данные в строку фиксированной длины. Используются для хранения паролей: вместо пароля хранится его "отпечаток". Даже если база украдена, пароль не восстановить.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== ПРАКТИЧЕСКИЙ БЛОК (интерактивные модули) ========== -->
+    <h2 style="margin-bottom: 0.5rem;">🛠️ Практический блок: попробуй сам!</h2>
+    <p style="margin-bottom: 1.5rem;">Теперь применим знания на практике. Зашифруй сообщение, проверь надёжность пароля и разгадай квест.</p>
+    
+    <div class="grid">
+        <!-- 1. Шифр Цезаря с теорией -->
+        <div class="card">
+            <h3>🔁 Шифр Цезаря</h3>
+            <div class="theory">
+                <strong>📚 Теория:</strong> Шифр Цезаря — один из древнейших шифров. Каждая буква заменяется на букву, стоящую на фиксированное число позиций (ключ) в алфавите. <br>
+                <strong>Формула:</strong> E(x) = (x + k) mod 26, где x — номер буквы (0-25), k — ключ.<br>
+                <strong>Слабость:</strong> Всего 25 вариантов ключа, поэтому шифр легко взломать перебором.
+            </div>
+            <p>Сдвигаем буквы по кругу. Ключ — число от 1 до 25.</p>
+            <div class="input-group">
+                <label>📝 Текст (английскими буквами)</label>
+                <input type="text" id="caesarInput" value="Hello class" placeholder="Например: Math is cool">
+            </div>
+            <div class="input-group">
+                <label>🔑 Сдвиг (секретное число)</label>
+                <input type="number" id="caesarShift" min="1" max="25" value="3">
+            </div>
+            <button id="encryptBtn">🔒 Зашифровать</button>
+            <button id="decryptBtn">🔓 Расшифровать</button>
+            <div class="result-box" id="caesarResult">Результат появится здесь</div>
+            <div style="font-size:0.75rem; margin-top:0.5rem;">💡 Пример: "HELLO" со сдвигом 3 → "KHOOR"</div>
+        </div>
+
+        <!-- 2. Проверка пароля с теорией (ИСПРАВЛЕНО) -->
+        <div class="card">
+            <h3>🔑 Надёжность пароля</h3>
+            <div class="theory">
+                <strong>📚 Теория энтропии:</strong> Стойкость пароля измеряется в битах энтропии. Формула: H = log₂(k^L) = L × log₂(k), где k — количество возможных символов, L — длина пароля.<br>
+                <strong>Пример:</strong> Пароль из 8 символов (цифры + буквы) → 26+26+10=62 символа → энтропия ≈ 8 × 5.95 = 47.6 бит.<br>
+                <strong>Рекомендация:</strong> 50+ бит — хороший пароль, 70+ — отличный.
+            </div>
+            <p>Чем длиннее и разнообразнее — тем лучше.</p>
+            <div class="input-group">
+                <label>🧪 Придумай пароль</label>
+                <input type="text" id="passwordInput" placeholder="например: Cat2024!">
+            </div>
+            <div class="meter"><div class="meter-fill" id="strengthFill"></div></div>
+            <div id="passwordResult" class="result-box">Введи пароль, и я скажу, надёжен ли он.</div>
+        </div>
+
+        <!-- 3. Квест с теорией -->
+        <div class="card">
+            <h3>🗝️ Квест «Секрет учителя»</h3>
+            <div class="theory">
+                <strong>📚 Теория чисел в криптографии:</strong> 
+                • <strong>НОД (наибольший общий делитель)</strong> используется в алгоритмах шифрования для поиска обратных элементов.<br>
+                • <strong>Простые числа</strong> — основа RSA. Произведение двух простых чисел (p×q) образует ключ, а разложить его обратно на множители очень сложно.<br>
+                • <strong>Линейные уравнения</strong> помогают понимать, как работает модульная арифметика в шифрах.
+            </div>
+            <p>Реши 3 лёгкие задачки — получишь зашифрованное послание!</p>
+            <div class="quest-task">
+                <strong>📌 Задача 1 (НОД):</strong> Найди наибольший общий делитель чисел <strong>18</strong> и <strong>24</strong>.
+                <input type="number" id="gcdAns" placeholder="Введите число" style="margin-top:6px;">
+            </div>
+            <div class="quest-task">
+                <strong>📌 Задача 2 (уравнение):</strong> Реши простое уравнение: <strong>2·x + 3 = 15</strong>. Найди x.
+                <input type="number" id="eqAns" placeholder="x = ?" style="margin-top:6px;">
+            </div>
+            <div class="quest-task">
+                <strong>📌 Задача 3 (простое число):</strong> Какое наименьшее простое число делит <strong>33</strong> без остатка?
+                <input type="number" id="primeAns" placeholder="Простое число" style="margin-top:6px;">
+            </div>
+            <button id="solveQuestBtn">🔓 Расшифровать послание</button>
+            <div class="result-box" id="questResult">💡 После верных ответов здесь появится секретное сообщение.</div>
+        </div>
+    </div>
+
+    <!-- БОНУС: историческая иллюстрация -->
+    <div class="learn-card" style="background: #e3f0ec;">
+        <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; justify-content: space-between;">
+            <svg width="100" height="100" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="#2c7a6e" opacity="0.2"/>
+                <text x="50" y="65" text-anchor="middle" font-size="30" fill="#2c7a6e">🏛️</text>
+            </svg>
+            <div style="flex:1; text-align: center;">
+                <h2>📜 История в иллюстрациях</h2>
+                <p>Шифр Цезаря использовался ещё в Древнем Риме. А сегодня простые числа защищают ваши сообщения в мессенджерах. Математика — это мост между прошлым и будущим!</p>
+            </div>
+            <svg width="100" height="100" viewBox="0 0 100 100">
+                <rect x="25" y="30" width="50" height="40" rx="5" fill="#2c7a6e" opacity="0.3"/>
+                <text x="50" y="65" text-anchor="middle" font-size="20" fill="#2c7a6e">🔐</text>
+            </svg>
+        </div>
+    </div>
+
+    <!-- ========== ЗАКЛЮЧИТЕЛЬНЫЙ БЛОК ========== -->
+    <div class="learn-card" style="background: linear-gradient(120deg, #1a5f6e, #0b2f3c); color: white;">
+        <div style="text-align: center;">
+            <h2>🏁 Итог классного часа</h2>
+            <p style="font-size: 1.2rem; margin-top: 1rem;">Математика — это не только формулы в тетради, но и мощный инструмент защиты в интернете.</p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin: 1.5rem 0;">
+                <div>✅ <strong>Мы узнали:</strong> как шифры защищают данные</div>
+                <div>✅ <strong>Мы научились:</strong> шифровать сообщения и проверять пароли</div>
+                <div>✅ <strong>Мы поняли:</strong> почему длинные пароли — это важно</div>
+            </div>
+            <p>📢 <strong>Домашнее задание (по желанию):</strong> придумайте свой шифр (не Цезаря) и зашифруйте фразу для соседа по парте. Обсудите, почему математика важна для IT-безопасности.</p>
+            <p style="margin-top: 1rem; font-style: italic;">💬 «Криптография — это искусство писать на языке, понятном только тем, кому это нужно» — помните об этом в цифровом мире!</p>
+        </div>
+    </div>
+
+    <footer>
+        🧠 Математика — твой суперсила в цифровом мире. Не бойся шифров, они дружат с логикой!
+    </footer>
+</div>
+
+<script>
+    // ---------- 1. ШИФР ЦЕЗАРЯ ----------
+    function caesarShiftText(text, shift, mode) {
+        let actualShift = (mode === 'encrypt') ? shift : -shift;
+        actualShift = ((actualShift % 26) + 26) % 26;
+        if (actualShift === 0) return text;
+        return text.split('').map(ch => {
+            let code = ch.charCodeAt(0);
+            if (code >= 65 && code <= 90) {
+                let newCode = ((code - 65 + actualShift) % 26 + 26) % 26;
+                return String.fromCharCode(newCode + 65);
+            } else if (code >= 97 && code <= 122) {
+                let newCode = ((code - 97 + actualShift) % 26 + 26) % 26;
+                return String.fromCharCode(newCode + 97);
+            }
+            return ch;
+        }).join('');
+    }
+
+    const caesarInput = document.getElementById('caesarInput');
+    const caesarShift = document.getElementById('caesarShift');
+    const caesarResult = document.getElementById('caesarResult');
+    const encryptBtn = document.getElementById('encryptBtn');
+    const decryptBtn = document.getElementById('decryptBtn');
+
+    function updateCaesar(mode) {
+        let text = caesarInput.value;
+        let shift = parseInt(caesarShift.value);
+        if (isNaN(shift)) shift = 3;
+        shift = Math.min(25, Math.max(1, shift));
+        caesarShift.value = shift;
+        let result = caesarShiftText(text, shift, mode);
+        caesarResult.innerHTML = `<strong>${mode === 'encrypt' ? '🔐 Зашифровано:' : '🔓 Расшифровано:'}</strong><br>${result}`;
+    }
+    encryptBtn.addEventListener('click', () => updateCaesar('encrypt'));
+    decryptBtn.addEventListener('click', () => updateCaesar('decrypt'));
+    updateCaesar('encrypt');
+
+    // ---------- 2. ПРОВЕРКА ПАРОЛЯ (ИСПРАВЛЕНО) ----------
+    const passwordInput = document.getElementById('passwordInput');
+    const strengthFill = document.getElementById('strengthFill');
+    const passwordResult = document.getElementById('passwordResult');
+
+    function checkPasswordStrength(pwd) {
+        if (!pwd) return { strength: 0, description: "Введи пароль, чтобы проверить", entropy: 0, charsetSize: 0 };
+        let len = pwd.length;
+        let hasLower = /[a-z]/.test(pwd);
+        let hasUpper = /[A-Z]/.test(pwd);
+        let hasDigit = /[0-9]/.test(pwd);
+        let hasSpecial = /[^a-zA-Z0-9]/.test(pwd);
+        let charsetSize = 0;
+        if (hasLower) charsetSize += 26;
+        if (hasUpper) charsetSize += 26;
+        if (hasDigit) charsetSize += 10;
+        if (hasSpecial) charsetSize += 20;
+        if (charsetSize === 0) charsetSize = 1;
+        
+        let entropy = len * Math.log2(charsetSize);
+        entropy = Math.min(entropy, 128);
+        
+        let variety = 0;
+        if (hasLower) variety++;
+        if (hasUpper) variety++;
+        if (hasDigit) variety++;
+        if (hasSpecial) variety++;
+        
+        let strength = 0;
+        if (len >= 4) strength += 20;
+        if (len >= 6) strength += 20;
+        if (len >= 8) strength += 25;
+        if (len >= 10) strength += 15;
+        if (variety >= 2) strength += 15;
+        if (variety >= 3) strength += 10;
+        if (variety >= 4) strength += 10;
+        strength = Math.min(100, strength);
+        
+        let description = "";
+        if (strength < 35) description = "❌ Очень слабый — добавь длину и спецсимволы!";
+        else if (strength < 60) description = "⚠️ Средний — сделай длиннее (8+ символов) и добавь цифры.";
+        else if (strength < 85) description = "✅ Хороший пароль! Трудно взломать.";
+        else description = "🏆 Супернадёжный! Математика на твоей стороне.";
+        return { strength, description, entropy: entropy.toFixed(1), charsetSize };
+    }
+
+    function updatePasswordMeter() {
+        let pwd = passwordInput.value;
+        let res = checkPasswordStrength(pwd);
+        strengthFill.style.width = res.strength + "%";
+        let color = "#e67e22";
+        if (res.strength >= 70) color = "#2ecc71";
+        else if (res.strength >= 40) color = "#f39c12";
+        else color = "#e74c3c";
+        strengthFill.style.backgroundColor = color;
+        passwordResult.innerHTML = `🛡️ Надёжность: ${res.strength}%<br>${res.description}<br>📊 Энтропия: ${res.entropy} бит<br>🔢 Набор символов: ${res.charsetSize} возможных символов<br>🧮 Формула: H = L × log₂(k) = длина × log₂(размер набора)`;
+    }
+    passwordInput.addEventListener('input', updatePasswordMeter);
+    updatePasswordMeter();
+
+    // ---------- 3. КВЕСТ ----------
+    const CORRECT_GCD = 6;
+    const CORRECT_EQ = 6;
+    const CORRECT_PRIME = 3;
+    const SECRET_MESSAGE = "🎉✨ СООБЩЕНИЕ УЧИТЕЛЯ: Ты справился! Математика — это не страшно, а очень полезно. Именно такие расчёты (НОД, уравнения и простые числа) помогают создавать надёжные шифры. Молодец! 🔐🧮💪";
+
+    let questUnlocked = false;
+    function solveQuest() {
+        if (questUnlocked) {
+            document.getElementById('questResult').innerHTML = "🔓 Вы уже получили послание! Обновите страницу, чтобы пройти квест заново.";
+            return;
+        }
+        let gcdVal = parseInt(document.getElementById('gcdAns').value);
+        let eqVal = parseInt(document.getElementById('eqAns').value);
+        let primeVal = parseInt(document.getElementById('primeAns').value);
+        let errors = [];
+        if (gcdVal !== CORRECT_GCD) errors.push("НОД (задача 1)");
+        if (eqVal !== CORRECT_EQ) errors.push("уравнение (задача 2)");
+        if (primeVal !== CORRECT_PRIME) errors.push("простое число (задача 3)");
+        
+        if (errors.length === 0) {
+            document.getElementById('questResult').innerHTML = `<strong>🔓 Секретное послание:</strong><br>${SECRET_MESSAGE}`;
+            questUnlocked = true;
+        } else {
+            document.getElementById('questResult').innerHTML = `❌ Неправильно: ${errors.join(", ")}. Попробуй ещё раз!`;
+        }
+    }
+    document.getElementById('solveQuestBtn').addEventListener('click', solveQuest);
+</script>
+</body>
+</html>
